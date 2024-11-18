@@ -1,0 +1,77 @@
+package com.myapp.playground.domain.user;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "tb_user_calendar_event")
+public class Event {
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "title", nullable = false)
+    private String title;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false)
+    private ScheduleType type;
+
+    @Column(name = "is_all_day", nullable = false, columnDefinition = "TINYINT")
+    private boolean allDay;
+
+    @Column(name = "start_date_time", nullable = false)
+    private LocalDateTime startDateTime;
+
+    @Column(name = "end_date_time")
+    private LocalDateTime endDateTime;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "repeat_cycle", nullable = false)
+    private RepeatCycle repeatCycle = RepeatCycle.NONE;
+
+    @Column(name = "memo")
+    private String memo;
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reminder> reminders = new ArrayList<>();
+
+    protected Event() {}
+
+    private Event(Long id, String title, ScheduleType type, boolean allDay,
+        LocalDateTime startDateTime,
+        LocalDateTime endDateTime, RepeatCycle repeatCycle, String memo, List<Reminder> reminders) {
+        this.id = id;
+        this.title = title;
+        this.type = type;
+        this.allDay = allDay;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+        this.repeatCycle = repeatCycle;
+        this.memo = memo;
+        this.reminders = reminders;
+    }
+
+    public static Event createOf(String title, ScheduleType type, boolean allDay,
+        LocalDateTime startDateTime, LocalDateTime endDateTime, RepeatCycle repeatCycle, String memo) {
+        return new Event(null, title, type, allDay, startDateTime, endDateTime, repeatCycle, memo, new ArrayList<>());
+    }
+
+    public void addReminder(Reminder reminder) {
+        this.reminders.add(reminder);
+        reminder.linkEvent(this);
+    }
+
+}
