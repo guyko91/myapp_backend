@@ -1,0 +1,40 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            scope:
+              - profile
+              - https://www.googleapis.com/auth/calendar
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/auth
+            token-uri: https://accounts.google.com/o/oauth2/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+            user-name-attribute: sub
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE-CLIENT-ID}
+            client-secret: ${GOOGLE-CLIENT-SECRET}
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE-CLIENT-ID}
+            client-secret: ${GOOGLE-CLIENT-SECRET}

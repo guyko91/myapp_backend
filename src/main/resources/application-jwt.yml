@@ -1,0 +1,7 @@
+jwt:
+  local:
+    secret: ${JWT_SECRET}
+    expiration-time: 3600000
+  dev:
+    secret: ${JWT_SECRET}
+    expiration-time: 3600000
