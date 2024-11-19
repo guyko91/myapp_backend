@@ -1,4 +1,4 @@
-package com.myapp.playground.domain.user;
+package com.myapp.playground.domain.calendar;
 
 import com.myapp.playground.domain.common.BaseTimeEntity;
 import jakarta.persistence.Column;
@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tb_user_calendar_event_reminder")
@@ -23,25 +24,19 @@ public class Reminder extends BaseTimeEntity {
     @JoinColumn(name = "event_id", nullable = false)
     private Event event;
 
-    @Column(name = "minutes_before", nullable = false)
-    private Integer minutesBefore;
+    @Column(name = "reminder_date_time", nullable = false)
+    private LocalDateTime reminderDateTime;
 
     protected Reminder() {}
 
-    private Reminder(Long id, Event event, Integer minutesBefore) {
+    private Reminder(Long id, Event event, LocalDateTime reminderDateTime) {
         this.id = id;
         this.event = event;
-        this.minutesBefore = minutesBefore;
+        this.reminderDateTime = reminderDateTime;
     }
 
-    public void linkEvent(Event event) {
-        this.event = event;
-    }
-
-    public static Reminder createFrom(Event event, int minutesBefore) {
-        Reminder reminder = new Reminder(null, null, minutesBefore);
-        reminder.linkEvent(event);
-        return reminder;
+    public static Reminder createFrom(Event event, LocalDateTime reminderDateTime) {
+        return new Reminder(null, event, reminderDateTime);
     }
 
 }

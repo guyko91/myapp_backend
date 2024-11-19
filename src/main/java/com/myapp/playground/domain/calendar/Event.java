@@ -1,4 +1,4 @@
-package com.myapp.playground.domain.user;
+package com.myapp.playground.domain.calendar;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -27,7 +27,7 @@ public class Event {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
-    private ScheduleType type;
+    private EventType type;
 
     @Column(name = "is_all_day", nullable = false, columnDefinition = "TINYINT")
     private boolean allDay;
@@ -50,7 +50,7 @@ public class Event {
 
     protected Event() {}
 
-    private Event(Long id, String title, ScheduleType type, boolean allDay,
+    private Event(Long id, String title, EventType type, boolean allDay,
         LocalDateTime startDateTime,
         LocalDateTime endDateTime, RepeatCycle repeatCycle, String memo, List<Reminder> reminders) {
         this.id = id;
@@ -64,14 +64,17 @@ public class Event {
         this.reminders = reminders;
     }
 
-    public static Event createOf(String title, ScheduleType type, boolean allDay,
+    public static Event createOf(String title, EventType type, boolean allDay,
         LocalDateTime startDateTime, LocalDateTime endDateTime, RepeatCycle repeatCycle, String memo) {
         return new Event(null, title, type, allDay, startDateTime, endDateTime, repeatCycle, memo, new ArrayList<>());
     }
 
-    public void addReminder(Reminder reminder) {
-        this.reminders.add(reminder);
-        reminder.linkEvent(this);
+    public void addReminders(int[] minutesBefore) {
+        for (int minutes : minutesBefore) {
+            LocalDateTime reminderDateTime = this.startDateTime.minusMinutes(minutes);
+            Reminder reminder = Reminder.createFrom(this, reminderDateTime);
+            this.reminders.add(reminder);
+        }
     }
 
 }
