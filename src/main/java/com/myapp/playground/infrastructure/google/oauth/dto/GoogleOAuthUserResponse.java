@@ -1,6 +1,6 @@
 package com.myapp.playground.infrastructure.google.oauth.dto;
 
-import com.myapp.playground.domain.user.User;
+import com.myapp.playground.domain.user.entity.User;
 
 public record GoogleOAuthUserResponse(
     String id,

@@ -7,7 +7,6 @@ spring:
             scope:
               - profile
               - https://www.googleapis.com/auth/calendar
-            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
         provider:
           google:
             authorization-uri: https://accounts.google.com/o/oauth2/auth

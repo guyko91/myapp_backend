@@ -1,7 +1,7 @@
 package com.myapp.playground.infrastructure.google.oauth;
 
-import com.myapp.playground.domain.user.AuthToken;
-import com.myapp.playground.domain.user.User;
+import com.myapp.playground.domain.user.entity.OAuthToken;
+import com.myapp.playground.domain.user.entity.User;
 import com.myapp.playground.domain.user.OauthUseCase;
 import com.myapp.playground.infrastructure.google.config.GoogleApi;
 import com.myapp.playground.infrastructure.google.config.GoogleOAuth2Properties;
@@ -31,9 +31,9 @@ class GoogleAuthProvider implements OauthUseCase {
      * @return AuthToken : 토큰 도메인 객체
      */
     @Override
-    public AuthToken getTokenInfoBy(String authorizationCode) {
+    public OAuthToken getTokenInfoBy(String authorizationCode, String redirectUri) {
         var decodedAuthCode = decodeAuthorizationCode(authorizationCode);
-        var request = GoogleOAuthTokenRequest.of(decodedAuthCode, properties);
+        var request = GoogleOAuthTokenRequest.of(decodedAuthCode, redirectUri, properties);
 
         GoogleOAuthTokenResponse response;
         try {
@@ -51,7 +51,7 @@ class GoogleAuthProvider implements OauthUseCase {
      * @return User : 사용자 도메인 객체
      */
     @Override
-    public User getUserInfoBy(AuthToken token) {
+    public User getUserInfoBy(OAuthToken token) {
         var userInfoResponse = requestUserInfoWith(token);
         return userInfoResponse.toDomainUser();
     }
@@ -63,7 +63,7 @@ class GoogleAuthProvider implements OauthUseCase {
      * @return AuthToken : 새로 발급받은 토큰 도메인 객체
      */
     @Override
-    public AuthToken refreshToken(AuthToken token) {
+    public OAuthToken refreshToken(OAuthToken token) {
         if (token.isNotExpired()) { return token; }
 
         String refreshToken = token.getRefreshToken();
@@ -92,7 +92,7 @@ class GoogleAuthProvider implements OauthUseCase {
             .block();
     }
 
-    private GoogleOAuthUserResponse requestUserInfoWith(AuthToken token) {
+    private GoogleOAuthUserResponse requestUserInfoWith(OAuthToken token) {
         return oauthWebClient.get()
             .uri(GoogleApi.USER_API.getUri())
             .header("Authorization", getAuthorizationHeaderValueWith(token))
@@ -116,7 +116,7 @@ class GoogleAuthProvider implements OauthUseCase {
             .block();
     }
 
-    private String getAuthorizationHeaderValueWith(AuthToken token) {
+    private String getAuthorizationHeaderValueWith(OAuthToken token) {
         return "Bearer " + token.getAccessToken();
     }
 }

@@ -10,6 +10,5 @@ public class GoogleOAuth2Properties {
 
     private String clientId;
     private String clientSecret;
-    private String redirectUri;
 
 }

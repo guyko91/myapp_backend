@@ -1,4 +1,4 @@
-package com.myapp.playground.presentation;
+package com.myapp.playground.presentation.user;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

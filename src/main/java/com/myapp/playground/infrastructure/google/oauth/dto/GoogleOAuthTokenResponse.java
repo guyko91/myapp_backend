@@ -1,6 +1,6 @@
 package com.myapp.playground.infrastructure.google.oauth.dto;
 
-import com.myapp.playground.domain.user.AuthToken;
+import com.myapp.playground.domain.user.entity.OAuthToken;
 import java.time.LocalDateTime;
 
 public record GoogleOAuthTokenResponse(
@@ -10,8 +10,8 @@ public record GoogleOAuthTokenResponse(
     String tokenType,
     int expiresIn
 ) {
-    public AuthToken toDomainAuthToken() {
+    public OAuthToken toDomainAuthToken() {
         LocalDateTime expiredAt = LocalDateTime.now().plusSeconds(expiresIn);
-        return AuthToken.createWith(accessToken, refreshToken, expiredAt);
+        return OAuthToken.createWith(accessToken, refreshToken, expiredAt);
     }
 }

@@ -1,4 +1,4 @@
-package com.myapp.playground.domain.user;
+package com.myapp.playground.domain.user.entity;
 
 import jakarta.persistence.Embeddable;
 import java.time.LocalDateTime;
@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @Embeddable
-public class AuthToken {
+public class OAuthToken {
 
     private String accessToken;
     private String refreshToken;
@@ -15,21 +15,21 @@ public class AuthToken {
     // 토큰 발급 시, Oauth token 발급처에서 제공하는 만료시간과의 차이를 고려하여 만료시간에 마진을 둔다.
     private static final int EXPIRE_SECOND_MARGIN = 10;
 
-    protected AuthToken() { }
+    protected OAuthToken() { }
 
-    private AuthToken(String accessToken, String refreshToken, LocalDateTime expiresAt) {
+    private OAuthToken(String accessToken, String refreshToken, LocalDateTime expiresAt) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.expiresAt = expiresAt;
     }
 
-    public static AuthToken createWith(String accessToken, String refreshToken, LocalDateTime expiresAt) {
-        return new AuthToken(accessToken, refreshToken, expiresAt);
+    public static OAuthToken createWith(String accessToken, String refreshToken, LocalDateTime expiresAt) {
+        return new OAuthToken(accessToken, refreshToken, expiresAt);
     }
 
-    public AuthToken withNewAccessToken(String accessToken, int expiresIn) {
+    public OAuthToken withNewAccessToken(String accessToken, int expiresIn) {
         LocalDateTime expiresAt = LocalDateTime.now().plusSeconds(expiresIn);
-        return new AuthToken(accessToken, refreshToken, expiresAt);
+        return new OAuthToken(accessToken, refreshToken, expiresAt);
     }
 
     public boolean isNotExpired() {
