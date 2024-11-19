@@ -12,3 +12,10 @@
  - Redis 를 활용한 토큰 저장 및 갱신 처리
  - 
 ### 도메인 주도 설계 (DDD) 구조 적용
+
+### 프로젝트 구동을 위한 설정 (local 기준)
+ - 구동 시 환경 변수 추가 필요 
+   - GOOGLE-CLIENT-ID
+   - GOOGLE-CLIENT-SECRET
+   - REDIS-PASSWORD
+ - Redis 서버 구동 필요 (port : 6379)
