@@ -55,16 +55,16 @@ public enum ErrorCode implements ResponseCode {
     
     @Override
     public HttpStatus getHttpStatus() {
-        return null;
+        return httpStatus;
     }
 
     @Override
     public String getCode() {
-        return "";
+        return code;
     }
 
     @Override
     public String getDesc() {
-        return "";
+        return desc;
     }
 }

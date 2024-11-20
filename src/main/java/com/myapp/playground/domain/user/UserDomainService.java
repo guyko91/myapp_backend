@@ -17,6 +17,7 @@ public class UserDomainService {
 
     private final UserRepository userRepository;
     private final OauthUseCase oauthUseCase;
+    private final OAuthUserUseCase oauthUserUseCase;
 
     @Transactional(propagation = Propagation.REQUIRED)
     public UserJoinResult joinOAuthUser(UserJoinCommand command) {
@@ -33,7 +34,7 @@ public class UserDomainService {
     }
 
     private User createNewUserWith(OAuthToken oauthToken) {
-        User user = oauthUseCase.getUserInfoBy(oauthToken);
+        User user = oauthUserUseCase.getUserInfoBy(oauthToken);
         return userRepository.saveUser(user);
     }
 

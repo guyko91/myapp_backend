@@ -14,15 +14,11 @@ spring:
   config:
     activate:
         on-profile: local
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
+logging:
+  level:
+    org.springframework.web.reactive.function.client.ExchangeFunctions: DEBUG
 ---
 spring:
   config:
     activate:
       on-profile: dev
-  h2:
-    console:
-      enabled: false

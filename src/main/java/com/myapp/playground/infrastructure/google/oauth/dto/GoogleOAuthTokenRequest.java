@@ -1,6 +1,7 @@
 package com.myapp.playground.infrastructure.google.oauth.dto;
 
 import com.myapp.playground.infrastructure.google.config.GoogleOAuth2Properties;
+import java.util.Map;
 
 public record GoogleOAuthTokenRequest(
     String code,
@@ -22,6 +23,17 @@ public record GoogleOAuthTokenRequest(
             oAuth2Properties.getClientSecret(),
             GRANT_TYPE,
             ACCESS_TYPE
+        );
+    }
+
+    public Map<String, Object> toRequestMap() {
+        return Map.of(
+            "client_id", clientId,
+            "client_secret", clientSecret,
+            "redirect_uri", redirectUri,
+            "code", code,
+            "grant_type", grantType,
+            "access_type", accessType
         );
     }
 

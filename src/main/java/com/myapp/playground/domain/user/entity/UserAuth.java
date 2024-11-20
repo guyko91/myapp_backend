@@ -34,8 +34,8 @@ public class UserAuth {
 
     @Embedded
     @AttributeOverrides({
-        @AttributeOverride(name = "accessToken", column = @Column(name = "access_token")),
-        @AttributeOverride(name = "refreshToken", column = @Column(name = "refresh_token")),
+        @AttributeOverride(name = "access_token", column = @Column(name = "access_token")),
+        @AttributeOverride(name = "refresh_token", column = @Column(name = "refresh_token")),
         @AttributeOverride(name = "expiresAt", column = @Column(name = "expires_at"))
     })
     private OAuthToken token;

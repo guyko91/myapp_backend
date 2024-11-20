@@ -20,13 +20,13 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Component
 @RequiredArgsConstructor
-class GoogleAuthProvider implements OauthUseCase {
+class GoogleOAuthProvider implements OauthUseCase {
 
     private final WebClient oauthWebClient;
     private final GoogleOAuth2Properties properties;
 
     /**
-     * Client 에서 구글 로그인 연동 후 받은 authorizationCode 를 이용하여 구글 OAuth 토큰을 요청합니다.
+     * Client 에서 구글 로그인 연동 후 받은 승인 code 를 이용하여 구글 OAuth 토큰을 요청합니다.
      * @param authorizationCode : Client 에서 받은 authorizationCode
      * @return AuthToken : 토큰 도메인 객체
      */
@@ -46,18 +46,7 @@ class GoogleAuthProvider implements OauthUseCase {
     }
 
     /**
-     * 구글 OAuth 토큰을 이용하여 사용자 정보를 요청합니다.
-     * @param token : 토큰 도메인 객체
-     * @return User : 사용자 도메인 객체
-     */
-    @Override
-    public User getUserInfoBy(OAuthToken token) {
-        var userInfoResponse = requestUserInfoWith(token);
-        return userInfoResponse.toDomainUser();
-    }
-
-    /**
-     * 토큰이 만료되었을 경우, refreshToken 을 이용하여 새로운 토큰을 발급받습니다.
+     * 토큰이 만료되었을 경우, refresh_token 을 이용하여 새로운 토큰을 발급받습니다.
      * 만료되지 않은 토큰은 그대로 반환합니다.
      * @param token : 토큰 도메인 객체 (만료된)
      * @return AuthToken : 새로 발급받은 토큰 도메인 객체
@@ -84,23 +73,11 @@ class GoogleAuthProvider implements OauthUseCase {
         return oauthWebClient.post()
             .uri(GoogleApi.TOKEN_API.getUri())
             .accept(MediaType.APPLICATION_JSON)
-            .bodyValue(request)
+            .bodyValue(request.toRequestMap())
             .retrieve()
             .onStatus(status -> status.is4xxClientError() || status.is5xxServerError(),
             clientResponse -> clientResponse.bodyToMono(String.class).map(GoogleOAuthException::new))
             .bodyToMono(GoogleOAuthTokenResponse.class)
-            .block();
-    }
-
-    private GoogleOAuthUserResponse requestUserInfoWith(OAuthToken token) {
-        return oauthWebClient.get()
-            .uri(GoogleApi.USER_API.getUri())
-            .header("Authorization", getAuthorizationHeaderValueWith(token))
-            .accept(MediaType.APPLICATION_JSON)
-            .retrieve()
-            .onStatus(status -> status.is4xxClientError() || status.is5xxServerError(),
-            clientResponse -> clientResponse.bodyToMono(String.class).map(GoogleOAuthException::new))
-            .bodyToMono(GoogleOAuthUserResponse.class)
             .block();
     }
 
@@ -114,9 +91,5 @@ class GoogleAuthProvider implements OauthUseCase {
             clientResponse -> clientResponse.bodyToMono(String.class).map(GoogleOAuthException::new))
             .bodyToMono(GoogleOAuthTokenRefreshResponse.class)
             .block();
-    }
-
-    private String getAuthorizationHeaderValueWith(OAuthToken token) {
-        return "Bearer " + token.getAccessToken();
     }
 }

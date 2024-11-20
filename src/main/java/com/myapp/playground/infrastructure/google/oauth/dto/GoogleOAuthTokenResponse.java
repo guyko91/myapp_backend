@@ -4,14 +4,14 @@ import com.myapp.playground.domain.user.entity.OAuthToken;
 import java.time.LocalDateTime;
 
 public record GoogleOAuthTokenResponse(
-    String accessToken,
-    String refreshToken,
+    String access_token,
+    String refresh_token,
     String scope,
-    String tokenType,
-    int expiresIn
+    String token_type,
+    int expires_in
 ) {
     public OAuthToken toDomainAuthToken() {
-        LocalDateTime expiredAt = LocalDateTime.now().plusSeconds(expiresIn);
-        return OAuthToken.createWith(accessToken, refreshToken, expiredAt);
+        LocalDateTime expiredAt = LocalDateTime.now().plusSeconds(expires_in);
+        return OAuthToken.createWith(access_token, refresh_token, expiredAt);
     }
 }

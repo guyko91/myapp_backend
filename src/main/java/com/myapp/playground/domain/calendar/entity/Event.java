@@ -1,4 +1,4 @@
-package com.myapp.playground.domain.calendar;
+package com.myapp.playground.domain.calendar.entity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -13,14 +13,18 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
 
-@Entity
+@Entity @Getter
 @Table(name = "tb_user_calendar_event")
 public class Event {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @Column(name = "calendar_id", nullable = false)
+    private Long calendarId;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -75,6 +79,12 @@ public class Event {
             Reminder reminder = Reminder.createFrom(this, reminderDateTime);
             this.reminders.add(reminder);
         }
+    }
+
+    public List<LocalDateTime> getReminderDateTimes() {
+        return reminders.stream()
+            .map(Reminder::getReminderDateTime)
+            .toList();
     }
 
 }

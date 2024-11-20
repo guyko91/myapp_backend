@@ -1,4 +1,4 @@
-package com.myapp.playground.domain.calendar;
+package com.myapp.playground.domain.calendar.entity;
 
 import com.myapp.playground.domain.common.BaseTimeEntity;
 import com.myapp.playground.domain.user.entity.User;
@@ -12,8 +12,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
 
-@Entity
+@Entity @Getter
 @Table(name = "tb_user_calendar")
 public class Calendar extends BaseTimeEntity {
 

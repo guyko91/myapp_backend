@@ -1,4 +1,4 @@
-package com.myapp.playground.infrastructure.google.calendar;
+package com.myapp.playground.infrastructure.google.api.calendar;
 
 import com.myapp.playground.domain.calendar.ExternalCalendarUseCase;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +9,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 @RequiredArgsConstructor
 public class GoogleCalendarProvider implements ExternalCalendarUseCase {
 
-    private final WebClient calendarWebClient;
+    private final WebClient googleApiWebClient;
 
 }

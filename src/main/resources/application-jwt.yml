@@ -1,7 +1,15 @@
+spring:
+  config:
+    activate:
+      on-profile: local
 jwt:
-  local:
-    secret: ${JWT_SECRET}
-    expiration-time: 3600000
-  dev:
-    secret: ${JWT_SECRET}
-    expiration-time: 3600000
+  secret: ${JWT_SECRET}
+  expiration-time: 3600000
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+jwt:
+  secret: ${JWT_SECRET}
+  expiration-time: 3600000

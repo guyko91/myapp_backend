@@ -1,4 +1,4 @@
-package com.myapp.playground.domain.calendar;
+package com.myapp.playground.domain.calendar.entity;
 
 import com.myapp.playground.domain.common.BaseTimeEntity;
 import jakarta.persistence.Column;
@@ -11,8 +11,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import lombok.Getter;
 
-@Entity
+@Entity @Getter
 @Table(name = "tb_user_calendar_event_reminder")
 public class Reminder extends BaseTimeEntity {
 
