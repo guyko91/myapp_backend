@@ -26,4 +26,8 @@ public class UserToken implements Serializable {
         this.refreshToken = refreshToken;
         this.expiration = expiration;
     }
+
+    public static UserToken dummy() {
+        return new UserToken("dummy", 0L, "accessToken", "refreshToken", 0L);
+    }
 }

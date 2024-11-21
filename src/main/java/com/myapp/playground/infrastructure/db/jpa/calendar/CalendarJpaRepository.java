@@ -1,11 +1,11 @@
 package com.myapp.playground.infrastructure.db.jpa.calendar;
 
-import com.myapp.playground.domain.calendar.entity.Calendar;
+import com.myapp.playground.domain.calendar.entity.UserCalendar;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CalendarJpaRepository extends JpaRepository<Calendar, Long> {
+public interface CalendarJpaRepository extends JpaRepository<UserCalendar, Long> {
 
-    Optional<Calendar> findByUserId(long userId);
+    Optional<UserCalendar> findByUserId(long userId);
 
 }

@@ -1,11 +1,10 @@
 package com.myapp.playground.infrastructure.db.jpa.user;
 
-import com.myapp.playground.domain.user.UserRepository;
-import com.myapp.playground.domain.user.entity.User;
-import com.myapp.playground.domain.user.entity.UserAuth;
+import com.myapp.playground.domain.auth.UserRepository;
+import com.myapp.playground.domain.auth.entity.User;
+import com.myapp.playground.domain.auth.entity.UserAuth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 @Component
 @RequiredArgsConstructor

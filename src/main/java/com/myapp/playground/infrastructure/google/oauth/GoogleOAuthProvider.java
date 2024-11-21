@@ -1,8 +1,7 @@
 package com.myapp.playground.infrastructure.google.oauth;
 
-import com.myapp.playground.domain.user.entity.OAuthToken;
-import com.myapp.playground.domain.user.entity.User;
-import com.myapp.playground.domain.user.OauthUseCase;
+import com.myapp.playground.domain.auth.entity.OAuthToken;
+import com.myapp.playground.domain.auth.OauthAuthenticationClient;
 import com.myapp.playground.infrastructure.google.config.GoogleApi;
 import com.myapp.playground.infrastructure.google.config.GoogleOAuth2Properties;
 import com.myapp.playground.infrastructure.google.oauth.dto.GoogleOAuthTokenRefreshRequest;
@@ -10,7 +9,6 @@ import com.myapp.playground.infrastructure.google.oauth.dto.GoogleOAuthTokenRefr
 import com.myapp.playground.infrastructure.google.oauth.dto.GoogleOAuthTokenRequest;
 import com.myapp.playground.infrastructure.google.oauth.dto.GoogleOAuthTokenResponse;
 import com.myapp.playground.infrastructure.google.exception.GoogleOAuthException;
-import com.myapp.playground.infrastructure.google.oauth.dto.GoogleOAuthUserResponse;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +18,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Component
 @RequiredArgsConstructor
-class GoogleOAuthProvider implements OauthUseCase {
+class GoogleOAuthProvider implements OauthAuthenticationClient {
 
     private final WebClient oauthWebClient;
     private final GoogleOAuth2Properties properties;

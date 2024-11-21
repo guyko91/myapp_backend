@@ -3,8 +3,7 @@ package com.myapp.playground.application.calendar;
 import com.myapp.playground.application.calendar.dto.request.UserCalendarEventListQuery;
 import com.myapp.playground.application.calendar.dto.response.UserCalendarEventListResult;
 import com.myapp.playground.domain.calendar.CalendarQueryService;
-import com.myapp.playground.domain.calendar.dto.CalendarDto;
-import com.myapp.playground.domain.calendar.dto.EventDto;
+import com.myapp.playground.domain.calendar.entity.Event;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,16 +17,12 @@ public class CalendarApplication {
 
     @Transactional(readOnly = true)
     public UserCalendarEventListResult getUserCalendarEvents(UserCalendarEventListQuery query) {
-
-        long userId = query.userId();
-        CalendarDto userCalendar = calendarQueryService.getCalendarBy(userId);
-
-        long calendarId = userCalendar.id();
-        int year = query.year();
-        int month = query.month();
-        List<EventDto> eventList = calendarQueryService.getEventsBy(calendarId, year, month);
-
-        return new UserCalendarEventListResult(eventList);
+        List<Event> userEvents = calendarQueryService.getUserEventsBy(
+            query.userId(),
+            query.year(),
+            query.month()
+        );
+        return UserCalendarEventListResult.from(userEvents);
     }
 
 }

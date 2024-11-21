@@ -114,3 +114,5 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 # End of https://mrkandreev.name/snippets/gitignore-generator/#Java,Gradle,Intellij
+service-account.json
+src/main/resources/service-account.json

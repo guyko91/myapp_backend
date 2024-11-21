@@ -1,7 +1,7 @@
 package com.myapp.playground.infrastructure.db.jpa.calendar;
 
 import com.myapp.playground.domain.calendar.CalendarRepository;
-import com.myapp.playground.domain.calendar.entity.Calendar;
+import com.myapp.playground.domain.calendar.entity.UserCalendar;
 import com.myapp.playground.domain.calendar.entity.Event;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,7 +16,12 @@ public class CalendarRepositoryAdapter implements CalendarRepository {
     private final EventJpaRepository eventJpaRepository;
 
     @Override
-    public Calendar getCalendarBy(long userId) {
+    public UserCalendar save(UserCalendar userCalendar) {
+        return calendarJpaRepository.save(userCalendar);
+    }
+
+    @Override
+    public UserCalendar getCalendarBy(long userId) {
         return calendarJpaRepository.findByUserId(userId)
             .orElseThrow(() -> new IllegalArgumentException("Calendar not found"));
     }
